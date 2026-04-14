@@ -6,7 +6,7 @@ from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_classic.chains import RetrievalQA
-from config import PDF_PATH, CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, LLM_MODEL, CHAIN_TYPE,TOP_N
+from config import PDF_PATH, CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, LLM_MODEL, CHAIN_TYPE,TOP_N,QUESTIONS
 from nltk.tokenize import sent_tokenize
 import re
 
@@ -96,13 +96,6 @@ qa3 =RetrievalQA.from_chain_type(
     return_source_documents=True # Option to return source documents
 )
 
-QUESTIONS = [
-    "What is the 1% rule and how does it relate to habits?",
-    "What are the four laws of behavior change?",
-    "How does identity relate to building good habits?",
-    "What is habit stacking and how does it work?",
-    "How does the environment influence our habits?",
-]
 
 strategy_names = [
     "Strategy 1 - CharacterTextSplitter",
@@ -123,12 +116,15 @@ for q in QUESTIONS:
     print("="*70)
 
     retrieved = [r.invoke(q) for r in retrievers]
+    answers = [qa.invoke(q) for qa in [qa1, qa2, qa3]]
 
-    for name, docs in zip(strategy_names, retrieved):
+    for name, docs, answer in zip(strategy_names, retrieved, answers):
         print(f"\n  [{name}]")
         for i, doc in enumerate(docs, 1):
             text: str = clean(doc.page_content if hasattr(doc, 'page_content') else str(doc))
             print(f"    Chunk {i} ({len(text)} chars): {text[:200]}...")
+        print("\n")
+        print(f"  LLM Response: {answer['result']}")
         print()
 
     # prompt user to pick best strategy for this question
