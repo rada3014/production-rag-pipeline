@@ -1,4 +1,6 @@
 from langchain_text_splitters import CharacterTextSplitter
+from langchain_community.retrievers import BM25Retriever
+from langchain_classic.retrievers import EnsembleRetriever
 from langchain_community.document_loaders import PyPDFLoader
 from dotenv import load_dotenv
 from tqdm import tqdm
@@ -27,11 +29,19 @@ embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
 # This embeds all chunks AND stores them correctly in one call
 vector_store = FAISS.from_documents(chunked_text, embeddings)
 
+# 2. Initialize the BM25 Retriever
+bm25_retriever = BM25Retriever.from_documents(chunked_text)
+
+# 3. Configure search settings
+bm25_retriever.k = 3 # Retrieve top 3 results
+
+config = [0.3, 0.7]
+ensemble_retriever = EnsembleRetriever(retrievers=[bm25_retriever, vector_store.as_retriever()],weights=config)
 #Retrieval QA
 qa =RetrievalQA.from_chain_type(
     llm=ChatOpenAI(model=LLM_MODEL),
     chain_type=CHAIN_TYPE,
-    retriever=vector_store.as_retriever(search_kwargs={"k": 4}),
+    retriever=ensemble_retriever,
     return_source_documents=True # Option to return source documents
 )
 
