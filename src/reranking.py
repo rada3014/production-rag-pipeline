@@ -39,7 +39,7 @@ chunked_text = text_splitter_strategy2(pages)
 bm25_retriever = BM25Retriever.from_documents(chunked_text)
 
 # 3. Configure search settings
-bm25_retriever.k = 10 
+bm25_retriever.k = 10
 
 #generating text embeddings
 embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
@@ -65,18 +65,18 @@ for q in QUESTIONS[:1]:
     retrieved = ensemble_retriever.invoke(q)
     docs_text = [clean(doc.page_content) for doc in retrieved]
 
-    # --- WITHOUT RERANK: top 3 by ensemble score ---
-    print("\n[WITHOUT RERANK] Top 3 chunks:")
+    # --- WITHOUT RE-RANK: top 3 by ensemble score ---
+    print("\n[WITHOUT RE-RANK] Top 3 chunks:")
     for i, text in enumerate(docs_text[:3], 1):
         print(f"\n--- Chunk {i} ---\n{text}\n" + "-"*60)
 
     relevant = input("How many of these 3 contain the answer? (0/1/2/3): ").strip()
     scores["without_rerank"] = int(relevant)
 
-    # --- WITH RERANK: top 3 by Cohere score ---
+    # --- WITH RE-RANK: top 3 by Cohere score ---
     results = co.rerank(query=q, documents=docs_text, top_n=3, model='rerank-english-v3.0')
 
-    print("\n[WITH RERANK] Top 3 chunks:")
+    print("\n[WITH RE-RANK] Top 3 chunks:")
     for i, r in enumerate(results.results, 1):
         print(f"\n--- Chunk {i} (score: {r.relevance_score:.4f}) ---\n{docs_text[r.index]}\n" + "-"*60)
 
