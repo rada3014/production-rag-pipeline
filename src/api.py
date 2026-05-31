@@ -14,10 +14,9 @@ from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from pydantic import BaseModel
-
+from pydantic import BaseModel, Field
 from config import LLM_MODEL
-from pipeline import RAGPipeline
+from basic_rag import RAGPipeline
 
 load_dotenv()
 
@@ -55,7 +54,7 @@ app = FastAPI(
 # ── Request / Response schemas ────────────────────────────────
 
 class QueryRequest(BaseModel):
-    question: str
+    question: str = Field(..., min_length=1)
 
 class ApproachResult(BaseModel):
     answer: str
