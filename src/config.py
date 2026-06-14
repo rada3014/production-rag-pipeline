@@ -10,6 +10,11 @@ CHAIN_TYPE = "stuff"
 
 TOP_N = 3
 
+ENSEMBLE_WEIGHTS = [0.3, 0.7]   # [BM25 weight, Dense weight]
+RERANK_TOP_N     = 3
+RETRIEVER_K      = 10
+
+
 QUESTIONS = [
     "What is BERT ?",
     "Who Developed BERT ?",

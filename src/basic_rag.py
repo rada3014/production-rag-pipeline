@@ -32,15 +32,15 @@ from config import (
     EMBEDDING_MODEL,
     LLM_MODEL,
     PDF_PATH,
+    ENSEMBLE_WEIGHTS,
+    RERANK_TOP_N,
+    RETRIEVER_K
 )
 
 load_dotenv()
 
 # ── Constants ─────────────────────────────────────────────────
 
-ENSEMBLE_WEIGHTS = [0.3, 0.7]   # [BM25 weight, Dense weight]
-RERANK_TOP_N     = 3
-RETRIEVER_K      = 10
 
 PROMPT_TEMPLATE = PromptTemplate.from_template(
     "You are a helpful assistant. Answer the question using ONLY the context "
@@ -208,12 +208,13 @@ class RAGPipeline:
         })
 
         return {
-            "question"    : question,
-            "retrieval_qa": {
+            "question"       : question,
+            "retrieved_chunks": [clean(d.page_content) for d in top_docs],
+            "retrieval_qa"   : {
                 "answer"      : qa_result["result"],
                 "source_pages": source_pages,
             },
-            "reranked_llm": {
+            "reranked_llm"   : {
                 "answer"      : reranked_answer.content,
                 "source_pages": reranked_pages,
             },

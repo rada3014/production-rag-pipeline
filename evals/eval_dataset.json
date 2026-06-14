@@ -1,0 +1,158 @@
+[
+  {
+    "question": "Who introduced BERT and when was it introduced?",
+    "ground_truth": "BERT was introduced in October 2018 by researchers at Google.",
+    "source_page": 1
+  },
+  {
+    "question": "What does the acronym BERT stand for?",
+    "ground_truth": "BERT stands for Bidirectional Encoder Representations from Transformers.",
+    "source_page": 1
+  },
+  {
+    "question": "What transformer architecture does BERT use?",
+    "ground_truth": "BERT uses an encoder-only transformer architecture.",
+    "source_page": 1
+  },
+  {
+    "question": "What two self-supervised tasks was BERT trained on?",
+    "ground_truth": "BERT was trained using masked language modeling and next sentence prediction.",
+    "source_page": 1
+  },
+  {
+    "question": "What are the two original English BERT model sizes and how many parameters did each have?",
+    "ground_truth": "The two original English model sizes were BERTBASE with 110 million parameters and BERTLARGE with 340 million parameters.",
+    "source_page": 1
+  },
+  {
+    "question": "Which datasets were used to train the original BERT models, and how large were they?",
+    "ground_truth": "The original BERT models were trained on the Toronto BookCorpus containing about 800 million words and English Wikipedia containing about 2,500 million words.",
+    "source_page": 1
+  },
+  {
+    "question": "What are the four high-level modules of BERT listed in the architecture section?",
+    "ground_truth": "The four modules are tokenizer, embedding, encoder, and task head.",
+    "source_page": [
+      1,
+      2
+    ]
+  },
+  {
+    "question": "Why is the task head often removed for downstream tasks?",
+    "ground_truth": "The task head is needed for pre-training, but for downstream tasks it is often removed and replaced with a newly initialized task-specific module so the latent vector representation can be fine-tuned for that task.",
+    "source_page": 2
+  },
+  {
+    "question": "What tokenizer does BERT use, and what happens to tokens not in its vocabulary?",
+    "ground_truth": "BERT uses the WordPiece tokenizer with a vocabulary size of 30,000; tokens not in the vocabulary are replaced by [UNK].",
+    "source_page": 2
+  },
+  {
+    "question": "What three embedding components are added together to form BERT's initial token representation?",
+    "ground_truth": "BERT adds token type embeddings, position embeddings, and segment type embeddings.",
+    "source_page": 2
+  },
+  {
+    "question": "How does BERT distinguish tokens from the first and second text segments?",
+    "ground_truth": "BERT uses segment type embeddings with a vocabulary of 0 or 1: tokens after the [SEP] special token are type 1, and all prior tokens are type 0.",
+    "source_page": 2
+  },
+  {
+    "question": "After embedding and LayerNorm in BERTBASE, what is the output dimension for each input token?",
+    "ground_truth": "After embedding and LayerNorm, BERTBASE outputs a 768-dimensional vector for each input token.",
+    "source_page": 2
+  },
+  {
+    "question": "In the L/H notation for BERT encoder stacks, what do BERTBASE, BERTLARGE, and BERTTINY correspond to?",
+    "ground_truth": "BERTBASE is 12L/768H, BERTLARGE is 24L/1024H, and BERTTINY is 2L/128H.",
+    "source_page": 3
+  },
+  {
+    "question": "In BERT terminology, which pairs of terms are described as synonymous for model dimensions?",
+    "ground_truth": "Feed-forward size and filter size are synonymous, and hidden size and embedding size are synonymous.",
+    "source_page": 3
+  },
+  {
+    "question": "In masked language modeling, what percentage of tokens are selected for prediction, and how are those selected tokens altered?",
+    "ground_truth": "15% of tokens are selected for prediction. Of those selected tokens, 80% are replaced with [MASK], 10% are replaced with a random word token, and 10% are left unchanged.",
+    "source_page": 3
+  },
+  {
+    "question": "Why does BERT avoid masking all selected tokens during masked language model pre-training?",
+    "ground_truth": "BERT avoids masking all selected tokens to reduce dataset shift, because during inference it may process normal sentences that do not contain [MASK] tokens.",
+    "source_page": 3
+  },
+  {
+    "question": "In the masked language modeling example using 'my dog is cute', what happens after the fourth token is selected?",
+    "ground_truth": "If the fourth token 'cute' is selected, it can be replaced by [MASK] with 80% probability, replaced by a random token such as 'happy' with 10% probability, or left as 'cute' with 10% probability; the fourth output vector is then passed to the decoder to predict over the 30,000-token vocabulary.",
+    "source_page": 4
+  },
+  {
+    "question": "How is the next sentence prediction input formatted, and which output vector is used for classification?",
+    "ground_truth": "The input starts with [CLS], the two sentences are separated by [SEP], and another [SEP] ends the pair. After processing, the final vector for the [CLS] token is passed to a linear layer for binary classification into [IsNext] or [NotNext].",
+    "source_page": 4
+  },
+  {
+    "question": "What does BERT predict for '[CLS] my dog is cute [SEP] he likes playing [SEP]' and why?",
+    "ground_truth": "BERT should predict [IsNext], because the second sentence is treated as a valid continuation of the first in the example.",
+    "source_page": 4
+  },
+  {
+    "question": "What does BERT predict for '[CLS] my dog is cute [SEP] how do magnets work [SEP]' and why?",
+    "ground_truth": "BERT should predict [NotNext], because the second sentence is not a logical continuation of the first in the example.",
+    "source_page": 4
+  },
+  {
+    "question": "What kinds of downstream tasks are mentioned as examples for fine-tuning BERT?",
+    "ground_truth": "The document mentions natural language inference, text classification, question answering, conversational response generation, sentiment classification, sentence classification, multiple-choice answering, and part-of-speech tagging.",
+    "source_page": [
+      4,
+      5
+    ]
+  },
+  {
+    "question": "Which benchmark datasets or task sets did the original BERT paper report state-of-the-art performance on after fine-tuning?",
+    "ground_truth": "The original BERT paper reported state-of-the-art performance on GLUE, SQuAD v1.1 and v2.0, and SWAG.",
+    "source_page": 5
+  },
+  {
+    "question": "For text classification downstream applications in the original BERT paper, what representation is fed to the final classifier?",
+    "ground_truth": "The output token corresponding to the [CLS] input token is fed into a linear-softmax layer to produce label outputs.",
+    "source_page": 5
+  },
+  {
+    "question": "How did the original code base's 'pooler layer' behave, and why was the name an analogy?",
+    "ground_truth": "The original code base called the final linear layer a 'pooler layer' by analogy with global pooling in computer vision, even though it simply discarded all output tokens except the one corresponding to [CLS].",
+    "source_page": 5
+  },
+  {
+    "question": "Compare the training cost and hardware setup for BERTBASE and BERTLARGE.",
+    "ground_truth": "BERTBASE was trained on 4 cloud TPUs, 16 TPU chips total, for 4 days at an estimated cost of 500 USD. BERTLARGE was trained on 16 cloud TPUs, 64 TPU chips total, for 4 days.",
+    "source_page": 5
+  },
+  {
+    "question": "Why can BERT represent the word 'fine' differently in 'I feel fine today' and 'She has fine blond hair'?",
+    "ground_truth": "Because BERT is bidirectionally trained and uses self-attention to consider context from both the left and right sides of a word, it can assign different contextual representations to 'fine' depending on surrounding words.",
+    "source_page": 6
+  },
+  {
+    "question": "Why is BERT difficult to use directly for text generation compared with models designed to generate text?",
+    "ground_truth": "BERT is encoder-only and lacks a decoder, so it cannot be prompted in the usual generative way. Naively extending text by adding many [MASK] tokens creates dataset shift because BERT was not trained on inputs with that many masked tokens, causing performance degradation.",
+    "source_page": 6
+  },
+  {
+    "question": "How does BERT differ from context-free models such as word2vec or GloVe?",
+    "ground_truth": "Context-free models such as word2vec or GloVe generate one embedding per word type, while BERT produces contextualized embeddings that can differ for each occurrence of a word depending on its sentence context.",
+    "source_page": 6
+  },
+  {
+    "question": "How did Google Search's use of BERT expand from 2019 to 2020?",
+    "ground_truth": "Google announced BERT use for English-language search queries in the US on October 25, 2019; by December 9, 2019 it had been adopted for over 70 languages; and by October 2020 almost every English-based query was processed by a BERT model.",
+    "source_page": 6
+  },
+  {
+    "question": "How do RoBERTa, ALBERT, ELECTRA, and DeBERTa each change or extend BERT according to the variants section?",
+    "ground_truth": "RoBERTa preserves BERT's architecture but improves training, changes key hyperparameters, removes next sentence prediction, and uses larger mini-batches. ALBERT shares parameters across layers, varies hidden size and word-embedding output size independently, and replaces NSP with sentence-order prediction. ELECTRA replaces masking with plausible substitutions generated by a small model and trains a larger model to identify replaced tokens. DeBERTa uses disentangled attention by keeping positional and token encodings separate and computing multiple attention matrices.",
+    "source_page": 7
+  }
+]

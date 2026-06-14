@@ -11,12 +11,12 @@
 # ============================================================
 
 from contextlib import asynccontextmanager
-
+from basic_rag import RAGPipeline
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 from config import LLM_MODEL
-from basic_rag import RAGPipeline
+
 
 load_dotenv()
 
